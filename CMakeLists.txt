@@ -3,6 +3,6 @@ project(TGapi)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(openssl/debug/include)
+include_directories(include)
 
-add_executable(TGapi DataTypes.h LinuxServerWithLibEvent/LinuxServerWithLibEvent.cpp LinuxServerWithLibEvent/LinuxServerWithLibEvent.h)
+add_executable(TGapi DataTypes.h WinServerWithLibEvent/WinServerWithLibEvent.cpp WinServerWithLibEvent/WinServerWithLibEvent.h)
