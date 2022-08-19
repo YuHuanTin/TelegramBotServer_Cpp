@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
 
-add_executable(TGapi DataTypes.h WinServerWithLibEvent/WinServerWithLibEvent.cpp WinServerWithLibEvent/WinServerWithLibEvent.h)
+add_executable(TGapi WinServerWithLibEvent/DataTypes.h WinServerWithLibEvent/WinServerWithLibEvent.cpp WinServerWithLibEvent/WinServerWithLibEvent.h)
