@@ -5,6 +5,8 @@
 using std::string;
 using std::vector;
 
+const string bot_key = "";
+
 //define function
 void fn_Output(int msgType,const string &msg,unsigned long error);
 int fn_ParseJson(const string &Json, stTgApiStruct &tgApiStruct);
@@ -40,6 +42,7 @@ void server_cb(evhttp_request *request,void *){
 
             //parse json
             stTgApiStruct tgApiStruct{};
+            tgApiStruct.command = COMMAND::NONE;
             if (fn_ParseJson(payload,tgApiStruct) == -1)
                 fn_Output(-1,"Json parse error",0);
 
@@ -55,14 +58,19 @@ void server_cb(evhttp_request *request,void *){
 //do and finish task
 void fn_ProcessTask(stTgApiStruct *tgApiStruct){
     printf("UserID:%lu ,Command:%d\n",tgApiStruct->UserID,tgApiStruct->command);
-    stHttpResponse httpResponse;
-    stHttpRequest httpRequest;
+    if (tgApiStruct->command == COMMAND::GET_PIC){
+        stHttpResponse httpResponse;
+        stHttpRequest httpRequest;
+        httpRequest.Url = "http://api.btstu.cn/sjbz/?lx=dongman";
+        httpRequest.Model = "get";
+        cWinHttpSimpleAPI::Winhttp_Request(httpRequest,httpResponse);
+        httpRequest.Url = "https://api.telegram.org/bot" + bot_key + "/sendPhoto?chat_id=" + std::to_string(tgApiStruct->UserID)
+                + "&photo=" + cWinHttpSimpleAPI::Winhttp_GetHeaders(httpResponse,"Location");
 
-    httpRequest.Url = "http://api.btstu.cn/sjbz/?lx=dongman";
-    httpRequest.Model = "get";
-    cWinHttpSimpleAPI::Winhttp_Request(httpRequest,httpResponse);
-    httpRequest.Url = cWinHttpSimpleAPI::Winhttp_GetHeaders(httpResponse,"Location");
-    cWinHttpSimpleAPI::Winhttp_Request(httpRequest,httpResponse);
+        cWinHttpSimpleAPI::Winhttp_Request(httpRequest,httpResponse);
+        fn_Output(1,"Command_Get_Pic",0);
+    }
+
 
 
 }
