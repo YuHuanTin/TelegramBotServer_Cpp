@@ -4,7 +4,8 @@ enum class COMMAND{
     NONE,GET_PIC,GET_S_PIC
 };
 struct stTgApiStruct{
-    unsigned long UserID;
+    std::string UserID;
+    std::string ChatID;
     COMMAND command;
 
 };
